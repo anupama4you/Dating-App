@@ -39,6 +39,50 @@ class HomeLogged extends Component {
     this.infiniteScroll = this.infiniteScroll.bind(this);
   }
 
+  async componentDidMount() {
+    this._isMounted = true;
+
+    (await this._isMounted) &&
+      this.setState({
+        userID: this.Auth.getConfirm()["id"]
+      });
+    this._isMounted &&
+      this.setState({
+        socket: io({
+          transports: ["polling"],
+          requestTimeout: 50000,
+          upgrade: false,
+          "sync disconnect on unload": true,
+          query: {
+            userID: this.state.userID
+          }
+        })
+      });
+
+    await Axios.get("/main/suggestions/" + this.state.userID, {
+      cancelToken: new CancelToken(function executor(c) {
+        cancel = c;
+      })
+    })
+      .then(res => {
+        
+        this._isMounted &&
+          this.setState({
+            userTab: res.data.list,
+            defaultTab: res.data.list,
+            defaultSorted: res.data.list
+          });
+          console.log('axios List:', this.state.userTab)
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    if (this.state.defaultTab.length) {
+      this.initTab();
+    }
+    window.addEventListener("scroll", this.infiniteScroll);
+  }
+
   render() {
     return (
       <div className="App">
@@ -221,47 +265,7 @@ class HomeLogged extends Component {
     }
   };
 
-  async componentDidMount() {
-    this._isMounted = true;
-
-    (await this._isMounted) &&
-      this.setState({
-        userID: this.Auth.getConfirm()["id"]
-      });
-    this._isMounted &&
-      this.setState({
-        socket: io({
-          transports: ["polling"],
-          requestTimeout: 50000,
-          upgrade: false,
-          "sync disconnect on unload": true,
-          query: {
-            userID: this.state.userID
-          }
-        })
-      });
-
-    await Axios.get("/main/suggestions/" + this.state.userID, {
-      cancelToken: new CancelToken(function executor(c) {
-        cancel = c;
-      })
-    })
-      .then(res => {
-        this._isMounted &&
-          this.setState({
-            userTab: res.data.list,
-            defaultTab: res.data.list,
-            defaultSorted: res.data.list
-          });
-      })
-      .catch(error => {
-        console.log(error);
-      });
-    if (this.state.defaultTab.length) {
-      this.initTab();
-    }
-    window.addEventListener("scroll", this.infiniteScroll);
-  }
+  
 
   componentWillUnmount() {
     this._isMounted = false;
@@ -270,26 +274,26 @@ class HomeLogged extends Component {
   }
 
   initTab = () => {
-    var tab = this.state.defaultTab.copyWithin(0);
-    var copy = [];
+    // var tab = this.state.defaultTab.copyWithin(0);
+    // var copy = [];
 
-    for (var i = 0; i < tab.length; i++) {
-      var keep = 1;
-      if (tab[i].birthdate > this.props.userConnectedData.age_max) keep = 0;
-      if (tab[i].birthdate < this.props.userConnectedData.age_min) keep = 0;
-      if (!(tab[i].geo_lat <= this.props.userConnectedData.distance_max + 0.8))
-        keep = 0;
-      if (
-        !(
-          tab[i].pop_score >= this.props.userConnectedData.pop_min &&
-          tab[i].pop_score <= this.props.userConnectedData.pop_max
-        )
-      )
-        keep = 0;
-      if (keep === 1) copy.push(tab[i]);
-    }
+    // for (var i = 0; i < tab.length; i++) {
+    //   var keep = 1;
+    //   if (tab[i].birthdate > this.props.userConnectedData.age_max) keep = 0;
+    //   if (tab[i].birthdate < this.props.userConnectedData.age_min) keep = 0;
+    //   if (!(tab[i].geo_lat <= this.props.userConnectedData.distance_max + 0.8))
+    //     keep = 0;
+    //   if (
+    //     !(
+    //       tab[i].pop_score >= this.props.userConnectedData.pop_min &&
+    //       tab[i].pop_score <= this.props.userConnectedData.pop_max
+    //     )
+    //   )
+    //     keep = 0;
+    //   if (keep === 1) copy.push(tab[i]);
+    // }
     this.setState({
-      userTab: copy,
+   
       isLoading: false
     });
   };
@@ -343,6 +347,7 @@ class HomeLogged extends Component {
 
   userList = props => {
     const value = props.value;
+    
     if (props.value.length !== 0) {
       const users = value.map((e, index) => (
         <UserCard

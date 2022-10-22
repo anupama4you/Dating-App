@@ -401,7 +401,7 @@ module.exports = {
     try {
       var result = await pool.query({
         sql:
-          "SELECT id, username, firstname, lastname, gender, online, pop_score, sexual_orientation, city, profile_picture_url, bio, birthdate, geo_lat, geo_long, last_connexion, pop_max, tags FROM users WHERE (gender = ? OR gender = ?) AND (sexual_orientation = ? OR sexual_orientation = ?) AND (geo_lat BETWEEN ? AND ?) AND (geo_long BETWEEN ? AND ?) AND `id` NOT IN (SELECT user_id FROM block WHERE blocking_id = ?) AND `id` != ?;",
+          "SELECT id, username, firstname, lastname, gender, online, pop_score, sexual_orientation, city, profile_picture_url, bio, birthdate, geo_lat, geo_long, last_connexion, pop_max, tags FROM users WHERE (gender = ? OR gender = ?) AND (sexual_orientation = ? OR sexual_orientation = ?) OR (geo_lat BETWEEN ? AND ?) OR (geo_long BETWEEN ? AND ?) AND `id` NOT IN (SELECT user_id FROM block WHERE blocking_id = ?) AND `id` != ? LIMIT 10;",
         values: [
           g1,
           g2,
@@ -447,16 +447,12 @@ module.exports = {
     try {
       var result = await pool.query({
         sql:
-          "SELECT id, username, firstname, lastname, gender, online, pop_score, sexual_orientation, city, profile_picture_url, bio, birthdate, geo_lat, geo_long, last_connexion, pop_max, tags FROM users WHERE (gender = ?) AND (sexual_orientation = ?) AND ((SELECT YEAR(birthdate)) BETWEEN ? AND ?) AND (geo_lat BETWEEN ? AND ?) AND (geo_long BETWEEN ? AND ?) AND (pop_score BETWEEN ? AND ?) AND `id` NOT IN (SELECT user_id FROM block WHERE blocking_id = ?) AND `id` != ?;",
+          "SELECT id, username, firstname, lastname, gender, online, pop_score, sexual_orientation, city, profile_picture_url, bio, birthdate, geo_lat, geo_long, last_connexion, pop_max, tags FROM users WHERE (gender = ?) AND (sexual_orientation = ?) AND ((SELECT YEAR(birthdate)) BETWEEN ? AND ?) OR (pop_score BETWEEN ? AND ?) AND `id` NOT IN (SELECT user_id FROM block WHERE blocking_id = ?) AND `id` != ?;",
         values: [
           gender,
           sexOrient,
           ageMax,
           ageMin,
-          range[0],
-          range[1],
-          range[2],
-          range[3],
           popMin,
           popMax,
           uid,

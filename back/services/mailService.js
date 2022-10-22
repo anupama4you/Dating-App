@@ -30,7 +30,7 @@ module.exports = {
     });
     transporter.sendMail(
       {
-        from: "registration@matcha.com",
+        from: "anupama.dilshan@icloud.com",
         to: mail,
         subject: "Welcome to Matcha",
         html: message,

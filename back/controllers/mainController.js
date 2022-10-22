@@ -47,6 +47,8 @@ module.exports = {
         break;
     }
 
+    // console.log('list>>', list)
+
     list = await mainService.getScoredList(list, user[0]);
     var idList = [];
     await list.forEach(element => {
@@ -78,7 +80,6 @@ module.exports = {
       sexOrient,
       ageMin,
       ageMax,
-      range,
       popMin,
       popMax,
       uid

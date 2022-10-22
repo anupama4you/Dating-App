@@ -11,6 +11,7 @@ module.exports = {
 
     if (user.match(/@/)) {
       var result = await userModel.findOne("mail", user);
+      console.log(result)
       if (result != "") {
         var hashed = result[0]["password"];
         if (result[0]["status"] == 0) return { error: "Inactive account" };

@@ -283,6 +283,7 @@ module.exports = {
   },
 
   createUser: async (req, res, next) => {
+    console.log('address>>', req.body)
     //Params
     var lastname = req.body.lastname;
     var firstname = req.body.firstname;
@@ -291,8 +292,8 @@ module.exports = {
     var pwd1 = req.body.pwd1;
     var pwd2 = req.body.pwd2;
     var city = req.body.location["address"]["city"];
-    var latitude = req.body.location["coords"]["latitude"];
-    var longitude = req.body.location["coords"]["longitude"];
+    var latitude = req.body.location["lat"];
+    var longitude = req.body.location["lon"];
 
     //Check inputs
     var err;

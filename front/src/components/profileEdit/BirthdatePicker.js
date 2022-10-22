@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { DatePicker } from "react-materialize";
 import moment from "moment";
+import TextInput from "react-materialize/lib/TextInput";
 
 class BirthdatePicker extends Component {
   constructor(props) {
@@ -32,6 +33,7 @@ class BirthdatePicker extends Component {
   }
 
   handleChange = e => {
+    console.log('bdate', e.value)
     this.props.birthdateToParent(
       document.querySelector(".birthdate-picker-modal").value
     );
@@ -48,10 +50,7 @@ class BirthdatePicker extends Component {
   render() {
     return (
       <div>
-        <label className="left-label" htmlFor="birthdate-edit-profile">
-          Birthdate
-        </label>
-        <DatePicker
+        {/* <DatePicker
           name="birthdate"
           options={{
             defaultDate:
@@ -70,6 +69,16 @@ class BirthdatePicker extends Component {
           }}
           className="birthdate-picker-modal"
           id="birthdate-edit-profile"
+        /> */}
+         <TextInput
+          name="birthdate"
+          label="Birthdate"
+          value={this.state.birthdate}
+          onChange={this.handleChange}
+          onKeyUp={this.handleFirstnameKeyUp}
+          className="birthdate-picker-modal"
+          id="birthdate-edit-profile"
+          placeholder="YYYY-mm-dd"
         />
       </div>
     );

@@ -41,7 +41,8 @@ class Register extends Component {
       pwdHasNumber: false,
       pwdHasMinLen: false,
       userLocation: "",
-      responseToPost: ""
+      responseToPost: "",
+      displayAddress:""
     };
     this.Auth = new AuthService();
     this._isMounted = false;
@@ -255,6 +256,7 @@ class Register extends Component {
                     Log in
                   </NavLink>
                 </p>
+                <p className="register-login-link">{this.state.displayAddress}</p>
               </div>
             </div>
           </div>
@@ -275,39 +277,39 @@ class Register extends Component {
     this.getLocation();
   }
 
-  showPosition = pos => {
-    var options = {
-      enableHighAccuracy: true,
-      desiredAccuracy: 30,
-      timeout: 5000,
-      maximumWait: 5000,
-      maximumAge: 0,
-      fallbackToIP: true,
-      addressLookup: true
-    };
-    GeoPosition.locate(options, (err, location) => {
-      // console.log(err || location);
-      this._isMounted &&
-        this.setState({ userLocation: location, locationValid: true });
-    });
-  };
+  // showPosition = pos => {
+  //   var options = {
+  //     enableHighAccuracy: true,
+  //     desiredAccuracy: 30,
+  //     timeout: 5000,
+  //     maximumWait: 5000,
+  //     maximumAge: 0,
+  //     fallbackToIP: true,
+  //     addressLookup: true
+  //   };
+  //   GeoPosition.locate(options, (err, location) => {
+  //     console.log(err || location);
+  //     this._isMounted &&
+  //       this.setState({ userLocation: location, locationValid: true });
+  //   });
+  // };
 
-  errorPosition = error => {
-    var options = {
-      homeMobileCountryCode: 208,
-      homeMobileNetworkCode: 1,
-      carrier: "Orange",
-      radioType: GeoPosition.RadioType.GSM,
-      fallbackToIP: true,
-      addressLookup: true,
-      timezone: false
-    };
-    GeoPosition.locateByMobile(options, (err, location) => {
-      //console.log(err || location);
-      this._isMounted &&
-        this.setState({ userLocation: location, locationValid: true });
-    });
-  };
+  // errorPosition = error => {
+  //   var options = {
+  //     homeMobileCountryCode: 208,
+  //     homeMobileNetworkCode: 1,
+  //     carrier: "Orange",
+  //     radioType: GeoPosition.RadioType.GSM,
+  //     fallbackToIP: true,
+  //     addressLookup: true,
+  //     timezone: false
+  //   };
+  //   GeoPosition.locateByMobile(options, (err, location) => {
+  //     //console.log(err || location);
+  //     this._isMounted &&
+  //       this.setState({ userLocation: location, locationValid: true });
+  //   });
+  // };
 
   getLocation = () => {
     GeoPosition.config({
@@ -318,11 +320,72 @@ class Register extends Component {
       }
     });
 
-    navigator.geolocation.getCurrentPosition(
-      this.showPosition,
-      this.errorPosition
-    );
+    // navigator.geolocation.getCurrentPosition(
+    //   this.showPosition,
+    //   this.errorPosition
+    // );
+
+    var options = {
+      enableHighAccuracy: true,
+      timeout: 5000,
+      maximumAge: 0
   };
+
+  function error(err) {
+    console.error(`ERROR(${err.code}): ${err.message}`);
+  }
+    // modified geolocation 
+    navigator.geolocation.getCurrentPosition(this.showPosition, error, options);
+  };
+
+
+    // geo location function
+   showPosition = (position) => {
+    console.log('lat:', position.coords.latitude)
+    
+    var xhr = new XMLHttpRequest();
+    
+    var lat = position.coords.latitude;
+    var lng = position.coords.longitude;
+  
+    // Paste your LocationIQ token below.
+    xhr.open('GET', "https://us1.locationiq.com/v1/reverse.php?key=pk.fbfc0008783ff42efafb0bcf7c16b9db&lat=" +
+    lat + "&lon=" + lng + "&format=json", true);
+    xhr.send();
+    xhr.onload = () => {
+      if(xhr.status == 200){
+          var response = JSON.parse(xhr.response);
+          this.setState({ userLocation: response, locationValid: true });
+          this.setState({displayAddress : response.display_name})
+          console.log('userLocation:',this.state.userLocation)
+      }
+    };
+
+    // console.log(this.state.userLocation)
+
+    // xhr.onreadystatechange = processRequest;
+    // xhr.addEventListener("readystatechange", processRequest, false);
+
+    // let city = "";
+  
+    // function processRequest(e) {
+    //     if (xhr.readyState == 4 && xhr.status == 200) {
+    //         var response = JSON.parse(xhr.responseText);
+    //         city = response.address.city;
+    //         console.log(city)
+    //         // this.setState({ userLocation: response, locationValid: true });
+    //         // var city = req.body.location["address"]["city"];
+    //         // var latitude = req.body.location["coords"]["latitude"];
+    //         // var longitude = req.body.location["coords"]["longitude"];
+
+    //         return;
+    //     }
+    // }
+
+    // console.log('city',city)
+  }
+
+  
 
   handleFirstnameKeyUp = e => {
     let result = ValidateInput.user.firstname(e.target.value);

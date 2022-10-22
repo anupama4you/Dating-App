@@ -238,6 +238,11 @@ class NavBar extends Component {
             </NavLink>
           </li>
           <li>
+            <NavLink to={"/main/resturant/"}>
+              {<i className="material-icons">local_cafe</i>}
+            </NavLink>
+          </li>
+          <li>
             <Button
               className="MuiButton-colorInherit"
               to="#"
@@ -249,6 +254,7 @@ class NavBar extends Component {
                 badgeContent={this.state.nbNotifications}
                 color="secondary"
               >
+                 
                 <Notifications />
               </Badge>
             </Button>
