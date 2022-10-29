@@ -9,6 +9,7 @@ import ResetPassword from "./containers/ResetPassword";
 import UserProfile from "./containers/UserProfile";
 import NotFound from "./containers/NotFound";
 import Messages from "./components/messages";
+import Resturants from "./components/resturants/Resturants";
 import Search from "./containers/Search";
 
 export default function MainRouter() {
@@ -24,6 +25,7 @@ export default function MainRouter() {
           <Route path="/users/reset-password/:key" component={ResetPassword} />
           <Route path="/users/profile/:username" component={UserProfile} />
           <Route path="/chat/messages" component={Messages} />
+          <Route path="/main/resturants" component={Resturants} />
           <Route path="/main/search" component={Search} />
           <Route component={NotFound} />
         </Switch>

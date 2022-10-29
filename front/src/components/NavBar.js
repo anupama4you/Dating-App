@@ -238,7 +238,7 @@ class NavBar extends Component {
             </NavLink>
           </li>
           <li>
-            <NavLink to={"/main/resturant/"}>
+            <NavLink to={"/main/resturants/"}>
               {<i className="material-icons">local_cafe</i>}
             </NavLink>
           </li>
