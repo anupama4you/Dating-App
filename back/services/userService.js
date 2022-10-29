@@ -145,6 +145,7 @@ module.exports = {
     var uniqid = (
       new Date().getTime() + Math.floor(Math.random() * 10000 + 1)
     ).toString(16);
+    data.push(true); // status
     data.push(uniqid);
     var created = await userModel.createOne(data);
     if (created) {

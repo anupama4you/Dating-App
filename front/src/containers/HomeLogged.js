@@ -356,7 +356,7 @@ class HomeLogged extends Component {
           func={this.sendNotif}
           key={index}
           pictures={
-            this.props.userConnectedData.pictures.length > 0 ? true : false
+            this.props.userConnectedData.pictures ? true : false
           }
         />
       ));

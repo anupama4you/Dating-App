@@ -210,7 +210,7 @@ class ModalUserEditProfileInfo extends Component {
             )}
           </div>
           <span className="profile-fields-labels">City</span>
-          {this.props.userConnectedData.firstname}
+          {this.props.userConnectedData.city}
           {/* <SelectLocation /> */}
           <span className="profile-fields-labels">Interested in</span>
           <InterestTags />
