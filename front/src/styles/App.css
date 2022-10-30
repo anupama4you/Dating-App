@@ -51,6 +51,12 @@ nav ul a {
   margin: 10px;
 }
 
+.resturant-photo{
+  width: 50px;
+  height: auto;
+  margin: auto;
+}
+
 .card-panel {
   border-radius: 15px;
 }

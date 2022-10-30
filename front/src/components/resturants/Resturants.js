@@ -6,6 +6,7 @@ import Axios from "axios";
 import withAuth from ".././withAuth";
 import NavBar from ".././NavBar";
 import { Card, Button} from "react-materialize";
+import SampleResturant from "../../assets/sample-resturant.jpg";
 // import '../../styles/resturants.scss';
 
 const CancelToken = Axios.CancelToken;
@@ -83,19 +84,31 @@ class Resturants extends Component {
          <NavBar />
         <div className="row">
         <div className="places">
+        <blockquote>
+        <h5>Resturants nearby you to arrange your date ...</h5>
+        </blockquote>
         {
           this.state.resturantsList.map((place, index) => (
             <Card key={index}>
             <div className="place" key={index}>
             <div className="row">
             <div className="col s8">
-              
-               <b><p className="name">{place.name} - ({place.rating}/5)</p></b>
+                  <div className="card-image">
+                  <img
+                    className="resturant-photo"
+                    src={SampleResturant}
+                    alt="Sample cafe"
+                  />
+                <span className="card-title">{place.name}</span>
+              </div>
+              <div className="card-content">
+               <b><p className="name">Ratings - ({place.rating}/5)</p></b>
                <p className="name">{place.vicinity}</p>
+               </div>
               
                </div>
                <div className="col s4">
-               <Button onClick={() => openInNewTab(place)}>Open in Google Maps</Button>
+               <Button style={{ marginBottom: '10px'}} onClick={() => openInNewTab(place)}>Open in Google Maps</Button>
                <Button onClick={() => this.ResturantDetails(place.place_id)}>Book Now</Button>
                </div>
                </div>
