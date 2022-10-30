@@ -5,18 +5,25 @@ import AuthService from "../../services/AuthService";
 import Axios from "axios";
 import withAuth from ".././withAuth";
 import NavBar from ".././NavBar";
-import { Card } from "react-materialize";
+import { Card, Button} from "react-materialize";
 // import '../../styles/resturants.scss';
 
 const CancelToken = Axios.CancelToken;
 // eslint-disable-next-line
 let cancel;
+const openInNewTab = place => {
+  let url = `https://www.google.com/maps/search/?api=1&query=${place.geometry.location.lat}%2C${place.geometry.location.lng}&query_place_id=${place.place_id}`
+  window.open(url, '_blank', 'noopener,noreferrer');
+};
+
+const API_KEY = "AIzaSyCNvWhIZyoxmPh4SFXy_qIee_kipxyFRoA"
 
 class Resturants extends Component {
   constructor(props) {
     super(props);
     this.Auth = new AuthService();
     this.state = {
+      userID: "",
       room: null,
       username: "",
       userID: "",
@@ -31,21 +38,22 @@ class Resturants extends Component {
   async componentDidMount() {
     this._isMounted = true;
 
-    await Axios.get("/main/resturants", {
+    (await this._isMounted) &&
+      this.setState({
+        userID: this.Auth.getConfirm()["id"]
+      });
+
+    console.log('userId', this.state.userID);
+
+    await Axios.get("/main/resturants/"+ this.state.userID, {
       cancelToken: new CancelToken(function executor(c) {
         cancel = c;
       })
     })
       .then(res => {
-        
-        // this._isMounted &&
-        //   this.setState({
-        //     userTab: res.data.list,
-        //     defaultTab: res.data.list,
-        //     defaultSorted: res.data.list
-        //   });
           console.log('axios List:', JSON.stringify(res.data.list.results, null, 2))
           this.setState({resturantsList : res.data.list.results});
+          console.log('test>>', this.state.resturantsList[0].opening_hours.open_now)
           this.setState({isLoading : false});
       })
       .catch(error => {
@@ -53,27 +61,51 @@ class Resturants extends Component {
       });
   }
 
+  ResturantDetails = place_id => {
+    var config = {
+      method: 'get',
+      url: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=Aap_uEA7vb0DDYVJWEaX3O-AtYp77AaswQKSGtDaimt3gt7QCNpdjp1BkdM6acJ96xTec3tsV_ZJNL_JP-lqsVxydG3nh739RE_hepOOL05tfJh2_ranjMadb3VoBYFvF0ma6S24qZ6QJUuV6sSRrhCskSBP5C1myCzsebztMfGvm7ij3gZT&key=${API_KEY}`,
+      headers: { }
+    };
+    
+    Axios(config)
+    .then(function (response) {
+      console.log(JSON.stringify(response.data));
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
   
-
   render() {
     return (
       <div className="App">
-        <NavBar />
+         <NavBar />
+        <div className="row">
         <div className="places">
         {
           this.state.resturantsList.map((place, index) => (
-            <Card>
+            <Card key={index}>
             <div className="place" key={index}>
-               <p className="name">name : {place.name}</p>
-               <p className="name"> rating (/5) : {place.rating}</p>
-               <p className="name"> total ratings : {place.user_ratings_total}</p>
-               <p className="name"> address : {place.vicinity}</p>
+            <div className="row">
+            <div className="col s8">
+              
+               <b><p className="name">{place.name} - ({place.rating}/5)</p></b>
+               <p className="name">{place.vicinity}</p>
+              
+               </div>
+               <div className="col s4">
+               <Button onClick={() => openInNewTab(place)}>Open in Google Maps</Button>
+               <Button onClick={() => this.ResturantDetails(place.place_id)}>Book Now</Button>
+               </div>
+               </div>
             </div>
             </Card>
             ))
         }
 
 
+        </div>
         </div>
       </div>
     );
