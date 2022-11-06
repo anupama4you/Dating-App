@@ -35,7 +35,7 @@ class CompleteProfile extends Component {
           ]}
         >
           Love is only a few clicks away. Complete your profile to allow full
-          access to Matcha suggestions
+          access to Find Love suggestions
         </Card>
       </Col>
     );

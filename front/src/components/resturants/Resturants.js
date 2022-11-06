@@ -7,6 +7,9 @@ import withAuth from ".././withAuth";
 import NavBar from ".././NavBar";
 import { Card, Button} from "react-materialize";
 import SampleResturant from "../../assets/sample-resturant.jpg";
+import HeartLoading from "../../assets/heart-loading.gif";
+import Star from "star-rating-react-component"; 
+import StarsRating from 'stars-rating'
 // import '../../styles/resturants.scss';
 
 const CancelToken = Axios.CancelToken;
@@ -77,6 +80,19 @@ class Resturants extends Component {
       console.log(error);
     });
   }
+
+  getStars = (noOfStars) =>{
+    const options = {
+      name: 'custom',
+      numOfStars: noOfStars,
+      starsWidth: 30,
+      color: "#ffffff",
+      bgColor: " #e6e6e6",
+      borderColor: "orange",
+      scoreColor: "inherit"
+    }
+    return options;
+  }
   
   render() {
     return (
@@ -102,22 +118,38 @@ class Resturants extends Component {
                 <span className="card-title">{place.name}</span>
               </div>
               <div className="card-content">
-               <b><p className="name">Ratings - ({place.rating}/5)</p></b>
+               <b><p className="name">({place.rating}/5)</p></b>
+               <StarsRating
+                  count={5}
+                  value={place.rating}
+                  edit={false}
+                  size={24}
+                  color2={'#ffd700'} /> 
                <p className="name">{place.vicinity}</p>
                </div>
               
                </div>
                <div className="col s4">
                <Button style={{ marginBottom: '10px'}} onClick={() => openInNewTab(place)}>Open in Google Maps</Button>
-               <Button onClick={() => this.ResturantDetails(place.place_id)}>Book Now</Button>
+               {/* <Button onClick={() => this.ResturantDetails(place.place_id)}>Book Now</Button> */}
                </div>
                </div>
             </div>
             </Card>
             ))
         }
-
-
+        {this.state.isLoading ?(
+          <>
+          <div className="userlist-loading">
+                  <img
+                    className="userlist-loading-img"
+                    src={HeartLoading}
+                    alt="Loading anim"
+                  />
+                  <div className="userlist-loading-text">Loading...</div>
+                </div>
+          </>
+        ):null} 
         </div>
         </div>
       </div>

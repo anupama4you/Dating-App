@@ -57,6 +57,16 @@ nav ul a {
   margin: auto;
 }
 
+.star-rating{
+  float: left;
+}
+
+.covid-icon{
+  width: 50px;
+  height: auto;
+  margin: auto;
+}
+
 .card-panel {
   border-radius: 15px;
 }

@@ -341,7 +341,6 @@ class Register extends Component {
 
     // geo location function
    showPosition = (position) => {
-    console.log('lat:', position.coords.latitude)
     
     var xhr = new XMLHttpRequest();
     
@@ -357,7 +356,6 @@ class Register extends Component {
           var response = JSON.parse(xhr.response);
           this.setState({ userLocation: response, locationValid: true });
           this.setState({displayAddress : response.display_name})
-          console.log('userLocation:',this.state.userLocation)
       }
     };
 

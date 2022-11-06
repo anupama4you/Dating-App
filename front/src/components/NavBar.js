@@ -3,7 +3,7 @@ import "materialize-css/dist/css/materialize.min.css";
 import M from "materialize-css";
 import AuthService from "../services/AuthService";
 import { withRouter, NavLink } from "react-router-dom";
-import logo from "../assets/logo-with-name.png";
+import logo from "../assets/logo-with-name2.png";
 import io from "socket.io-client";
 import Axios from "axios";
 import Badge from "@material-ui/core/Badge";
@@ -239,7 +239,12 @@ class NavBar extends Component {
           </li>
           <li>
             <NavLink to={"/main/resturants/"}>
-              {<i className="material-icons">local_cafe</i>}
+              {<i className="material-icons">restaurant_menu</i>}
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to={"/main/covid-info/"}>
+              {<i className="material-icons">coronavirus</i>}
             </NavLink>
           </li>
           <li>

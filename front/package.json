@@ -16,7 +16,7 @@
     "react-dom": "^16.8.6",
     "react-facebook-login": "^4.1.1",
     "react-google-login": "^5.0.4",
-    "react-materialize": "^3.3.1",
+    "react-materialize": "^3.10.0",
     "react-places-autocomplete": "^7.2.1",
     "react-redux": "^7.1.0",
     "react-router": "^5.0.0",
@@ -28,7 +28,9 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
     "sass": "^1.55.0",
-    "socket.io-client": "^2.2.0"
+    "socket.io-client": "^2.2.0",
+    "star-rating-react-component": "^3.2.1",
+    "stars-rating": "^1.1.0"
   },
   "scripts": {
     "start": "HTTPS=true react-scripts start",

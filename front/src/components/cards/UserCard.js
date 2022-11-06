@@ -10,6 +10,7 @@ import ApiCall from "../../services/ApiCall";
 import ManPicture from "../../assets/default-profile-man.jpg";
 import WomanPicture from "../../assets/default-profile-woman.jpg";
 import NoGender from "../../assets/default-profile-no-gender.png";
+import CovidIcon from "../../assets/covid.png";
 
 class UserCard extends Component {
   constructor(props) {
@@ -216,6 +217,11 @@ class UserCard extends Component {
                     </span>
                   </span>
                 )}
+                {/* covid status */}
+                {this.props.intel.birthdate !== null && this.props.intel.birthdate < 50 ? (
+                     <span><img className="covid-icon" src={CovidIcon}/></span>
+                  ) : (null
+                  )}
                 <i className="material-icons right user-card-bio-btn">
                   more_vert
                 </i>
