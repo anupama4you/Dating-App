@@ -9,15 +9,27 @@ var chatController = require("../controllers/chatController");
 var userController = require("../controllers/userController");
 var userModel = require("../models/userModel");
 var Seed = require("../config/seed");
+var rateLimit = require('express-rate-limit');
 var fs = require("fs");
 var path = require("path");
 /* Listenning port */
 
 const PORT = 8080;
+const cors = require('cors')
+app.use(cors())
 
 http.listen(PORT, () => {
   console.log("Listening on port: ", PORT);
 });
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+})
+// Apply the rate limiting middleware to all requests
+app.use(limiter)
 
 /* Middlewares */
 app.use(bodyParser.json({ limit: "10mb", extended: true }));

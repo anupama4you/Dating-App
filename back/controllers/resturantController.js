@@ -5,6 +5,7 @@ const tagModel = require("../models/tagModel");
 const mainService = require("../services/mainService");
 const moment = require("moment");
 var axios = require('axios');
+require('dotenv').config();
 
 module.exports = {
     getNearbyResturants: async (req, res, next) => {
@@ -15,7 +16,7 @@ module.exports = {
             let lng = user[0].geo_long ? user[0].geo_long :151.2100055;
             let placeId = "";
 
-            const API_KEY = "AIzaSyCNvWhIZyoxmPh4SFXy_qIee_kipxyFRoA"
+            const API_KEY = process.env.API;
             const {data} = await axios.get(
             
          `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat}%2C${lng}&rankBy=distance&radius=1500&type=restaurant&key=${API_KEY}`
