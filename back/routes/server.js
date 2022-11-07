@@ -9,6 +9,8 @@ var chatController = require("../controllers/chatController");
 var userController = require("../controllers/userController");
 var userModel = require("../models/userModel");
 var Seed = require("../config/seed");
+var fs = require("fs");
+var path = require("path");
 /* Listenning port */
 
 const PORT = 8080;
@@ -32,6 +34,13 @@ app.get("/setup", (req, resp) => {
   require("../config/setup");
   resp.send({ message: "Database Matcha created succefully" });
 });
+
+// const sslServer = http.createServer({
+//   key : fs.readFileSync(path.join(__dirname, '../cert', 'key.pem')),
+//   cert : fs.readFileSync(path.join(__dirname, '../cert', 'cert.pem')),
+// }, app)
+
+// sslServer.listen(3443, () => console.log('Secure server on port ', PORT))
 
 /* Socket.io */
 
