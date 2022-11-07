@@ -7,9 +7,10 @@ import BirthdatePicker from "../profileEdit/BirthdatePicker";
 import InterestTags from "../profileEdit/InterestTags";
 import SelectLocation from "../profileEdit/SelectLocation";
 import moment from "moment";
-import { Modal, Button } from "react-materialize";
+import { Modal, Button, Switch } from "react-materialize";
 import * as actionCreators from "../../actions/user-actions";
 import { connect } from "react-redux";
+import { TextField } from "@material-ui/core";
 
 class ModalUserEditProfileInfo extends Component {
   constructor(props) {
@@ -26,7 +27,8 @@ class ModalUserEditProfileInfo extends Component {
       geo_long: null,
       username: "",
       isTwoNamesInputValid: true,
-      isBioInputValid: true
+      isBioInputValid: true,
+      covidStatus: false
     };
     this.handleFirstnameData = this.handleFirstnameData.bind(this);
     this.handleLastnameData = this.handleLastnameData.bind(this);
@@ -35,6 +37,7 @@ class ModalUserEditProfileInfo extends Component {
     this.isTwoNamesInputValid = this.isTwoNamesInputValid.bind(this);
     this.isBioInputValid = this.isBioInputValid.bind(this);
     this.resetMyDetails = this.resetMyDetails.bind(this);
+    this.handleChangeCovid = this.handleChangeCovid.bind(this);
     this._isMounted = false;
   }
 
@@ -140,6 +143,13 @@ class ModalUserEditProfileInfo extends Component {
     );
   };
 
+  handleChangeCovid (e) {
+    this.setState({
+      covidStatus: !this.state.covidStatus
+    });
+    console.log(this.state.covidStatus)
+  }
+
   render() {
     return (
       <div>
@@ -211,6 +221,13 @@ class ModalUserEditProfileInfo extends Component {
           </div>
           <span className="profile-fields-labels">City</span>
           {this.props.userConnectedData.city}
+          <span className="profile-fields-labels">Display COVID vaccinated badge</span>
+          <Switch
+              id="Switch-20"
+              offLabel="Off"
+              onChange={this.handleChangeCovid}
+              onLabel="On"
+            />
           {/* <SelectLocation /> */}
           <span className="profile-fields-labels">Interested in</span>
           <InterestTags />

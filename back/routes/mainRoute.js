@@ -8,7 +8,8 @@ exports.router = (() => {
   mainRouter.route("/suggestions/:uid").get(mainController.getSuggestions);
   mainRouter.route("/search").post(mainController.searchResults);
 
-  mainRouter.route("/resturants").get(resturantController.getNearbyResturants);
+  mainRouter.route("/resturants/:uid").get(resturantController.getNearbyResturants);
+  mainRouter.route("/resturant/:placeid").get(resturantController.getResturantDetails);
 
   return mainRouter;
 })();

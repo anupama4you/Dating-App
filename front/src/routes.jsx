@@ -10,6 +10,7 @@ import UserProfile from "./containers/UserProfile";
 import NotFound from "./containers/NotFound";
 import Messages from "./components/messages";
 import Resturants from "./components/resturants/Resturants";
+import CovidInfo from "./components/covid/covid_info";
 import Search from "./containers/Search";
 
 export default function MainRouter() {
@@ -26,6 +27,7 @@ export default function MainRouter() {
           <Route path="/users/profile/:username" component={UserProfile} />
           <Route path="/chat/messages" component={Messages} />
           <Route path="/main/resturants" component={Resturants} />
+          <Route path="/main/covid-info" component={CovidInfo} />
           <Route path="/main/search" component={Search} />
           <Route component={NotFound} />
         </Switch>

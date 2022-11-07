@@ -103,7 +103,7 @@ class ModalUserEditAccountSettings extends Component {
             trigger={false}
           >
             <p className="modal-intro">
-              You can edit your Matcha discovery settings and personal account
+              You can edit your Find Love discovery settings and personal account
               settings
             </p>
             <span className="profile-fields-labels">Discovery settings</span>

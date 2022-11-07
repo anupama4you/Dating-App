@@ -72,7 +72,6 @@ class HomeLogged extends Component {
             defaultTab: res.data.list,
             defaultSorted: res.data.list
           });
-          console.log('axios List:', this.state.userTab)
       })
       .catch(error => {
         console.log(error);

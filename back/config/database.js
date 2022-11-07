@@ -1,12 +1,13 @@
 var mysql = require("mysql");
 var util = require("util");
+require('dotenv').config();
 
 var pool = mysql.createPool({
   connectionLimit: 10,
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "matcha",
+  host: process.env.HOST,
+  user: process.env.USERNAME,
+  password: process.env.PASSWORD,
+  database: process.env.DATABASE,
   port: "3390"
 });
 
